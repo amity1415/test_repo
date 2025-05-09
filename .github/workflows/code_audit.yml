@@ -18,14 +18,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: pip install openai
 
       - name: Run Audit on Changed Python Files
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          for file in $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '.py$'); do
+          git fetch origin main
+          for file in $(git diff --name-only origin/main...HEAD | grep '.py$'); do
             echo "📄 Auditing: $file"
-            python code_audit.py $file
+            python code_audit.py "$file"
           done

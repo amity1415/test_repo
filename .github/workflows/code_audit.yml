@@ -21,11 +21,11 @@ jobs:
       - name: Install dependencies
         run: pip install openai
 
-      - name: Run Audit on Changed Files
+      - name: Run Audit on Changed Python Files
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          for file in $(git diff --name-only origin/main | grep '.py$'); do
+          for file in $(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '.py$'); do
             echo "📄 Auditing: $file"
             python code_audit.py $file
           done

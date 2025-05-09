@@ -1,22 +1,21 @@
 import sqlite3
 
-def get_user_data(user_id):
+def authenticate_user(username, password):
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE id = '%s'" % user_id)
+    
+    # ❌ SQL Injection risk
+    query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+    cursor.execute(query)
+    
+    # ❌ Insecure plain-text password check
     user = cursor.fetchone()
     if user != None:
-        print("User found: ", user)
+        print("Welcome", username)
     else:
-        print("User not found at ease")
+        print("Access denied")
+    
     conn.close()
 
-def process():
-    for i in range(0, 1000):
-        for j in range(0, 1000):
-            for k in range(0, 1000):
-                result = i * j * k
-    print("Done")
-
-get_user_data("1 OR 1=1")
-process()
+# ❌ Hardcoded credentials
+authenticate_user("admin", "admin123")

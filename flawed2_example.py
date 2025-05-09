@@ -8,7 +8,7 @@ def get_user_data(user_id):
     if user != None:
         print("User found: ", user)
     else:
-        print("User not found")
+        print("User not found at ease")
     conn.close()
 
 def process():

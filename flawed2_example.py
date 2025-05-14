@@ -14,6 +14,7 @@ def authenticate_user(username, password):
         print("Welcome", username)
     else:
         print("Access denied")
+	print("access denied")
     
     conn.close()
 
